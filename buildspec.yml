@@ -6,20 +6,20 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 761771278763.dkr.ecr.eu-west-2.amazonaws.com
+      - REPOSITORY_URI=761771278763.dkr.ecr.eu-west-2.amazonaws.com/latest
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG -f "${DockerFilePath}" .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
+      - docker build -t nginxcicd:latest -f "Dockerfile" .
+      - docker tag nginxcicd:latest 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest      
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker push 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' NginxCICDContainer 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
