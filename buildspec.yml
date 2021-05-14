@@ -5,19 +5,19 @@ run-as: root
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo Logging in to Amazon ECR
       - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 761771278763.dkr.ecr.eu-west-2.amazonaws.com
       - REPOSITORY_URI=761771278763.dkr.ecr.eu-west-2.amazonaws.com/latest
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image...          
-      - docker build -t nginxcicd:latest -f "Dockerfile" .
+      - echo Building the Docker image          
+      - docker build -t nginxcicd:latest -f "Dockerfile"
       - docker tag nginxcicd:latest 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest      
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image...
+      - echo Pushing the Docker image
       - docker push 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest
       - echo Writing image definitions file...
       - printf '[{"name":"%s","imageUri":"%s"}]' NginxCICDContainer 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest > imagedefinitions.json
