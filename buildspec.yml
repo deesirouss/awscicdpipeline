@@ -12,7 +12,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t nginxcicd:latest -f Dockerfile .
+      - docker build -t nginxcicd:latest -f "Dockerfile" .
       - docker tag nginxcicd:latest 761771278763.dkr.ecr.eu-west-2.amazonaws.com/nginxcicd:latest      
   post_build:
     commands:
