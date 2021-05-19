@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-fpm
 # Arguments defined in docker-compose.yml
 ENV USER=ubuntu
 ENV UID 1000
