@@ -29,4 +29,4 @@ USER $USER
 RUN composer update
 RUN php artisan key:generate
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
-EXPOSE 80
+EXPOSE 8000
