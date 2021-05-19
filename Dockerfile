@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm-alpine
 # Arguments defined in docker-compose.yml
 ENV USER=ubuntu
 ENV UID 1000
@@ -29,4 +29,4 @@ USER $USER
 RUN composer update
 RUN php artisan key:generate
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
-EXPOSE 8000
+EXPOSE 80
